@@ -1,5 +1,5 @@
 
-# Template de RESTServer
+# Template de REST API server
 
 Este proyecto es la plantilla básica de un REST API server desarrollado en Node JS con Express.
 
@@ -18,6 +18,17 @@ Dependencias:
 
 
 
+## Instalación
+
+Installación RESTServer con npm
+
+Descargar o clonar el repositorio y ejecutar lo siguiente:
+
+```bash
+  cd my-project-folder
+  npm install 
+```
+    
 ## Authors
 
 - [@esgonzalezr](https://github.com/esgonzalezr)
