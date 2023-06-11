@@ -1,5 +1,5 @@
 
-# Template de REST API server
+# Template de RESTServer
 
 Este proyecto es la plantilla básica de un REST API server desarrollado en Node JS con Express.
 
