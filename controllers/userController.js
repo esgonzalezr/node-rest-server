@@ -1,29 +1,43 @@
 const { response } = require('express');
+const bcrypt = require('bcrypt');
+
+const User = require('../models/userModel');
+const saltRounds = 10;
 
 const userGet = (req, res = response) => {
 
     //De esta forma se capturan los parámetros de segmento
     //El nombre del param, debe ser el mismo del definido en la ruta del endpoint
     const id = req.params.id; //Este objeto puede desestructurarse { id } = req.params
-
     const { nombre, apellido } = req.query;
 
     res.json({
         msg: 'get Api - from Controller',
         id,
-        nombre
+        nombre,
+        apellido
     });
 }
-const userPost = (req, res = response) => {
 
-    //De esta forma se captura el body del request
-    const body = req.body;
+const userPost = async (req, res = response) => {
 
+    const { name, password, mail, rol } = req.body; //Acá se captura solo los datos necesarios del request
+    const usuario = new User({ name, password, mail, rol }); //Se instancia el modelo sólo con los datos requeridos.
+
+    //Encriptar contraseña
+    const salt = bcrypt.genSaltSync(saltRounds);
+    usuario.password = bcrypt.hashSync(password, salt);
+
+    //Guardar usuario en db
+    await usuario.save();
+
+    //Se genera el response
     res.json({
         msg: 'post Api - from Controller',
-        body
+        usuario
     });
 }
+
 const userPut = (req, res = response) => {
     res.json({
         msg: 'put Api - from Controller'

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../database/dbconfig');
 
 class Server {
 
@@ -10,11 +11,19 @@ class Server {
         this.port = process.env.PORT;
         this.usersApiPath = '/api/usuarios';
 
+        //Conexión a bd
+        this.connDb();
+        
         //Middlewares
         this.middlewares();
 
         //Rutas de la app
         this.routes();
+    }
+
+    //Método para abrir conexión a mongo
+    async connDb() {
+        await dbConnection();
     }
 
     //Método para cargar los middleware ofrecidos por express
@@ -24,7 +33,7 @@ class Server {
         this.app.use(cors());
 
         //Lecutra y parseo de body en peticiones post, put, patch y delete
-        this.app.use( express.json() );
+        this.app.use(express.json());
 
         // Se sirve la carpeta public 
         this.app.use(express.static('public'));
@@ -32,7 +41,7 @@ class Server {
 
     //Método para definir las rutas de express
     routes() {
-        this.app.use(this.usersApiPath, require('../routes/user'));
+        this.app.use(this.usersApiPath, require('../routes/userRoutes'));
     }
 
     //Método para mostrar en qué puerto se sirvió la aplicación
