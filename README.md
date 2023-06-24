@@ -20,7 +20,7 @@ Dependencias:
 
 ## Instalación
 
-Installación RESTServer con npm
+Installación RESTServer con NPM
 
 Descargar o clonar el repositorio y ejecutar lo siguiente:
 
