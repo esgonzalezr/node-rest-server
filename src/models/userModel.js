@@ -32,13 +32,13 @@ const userSchema = new Schema({
     }
 });
 
-//Sobreescritura del método toJSON: Este método se encarga de imprimir el objeto en formato JSON. 
-//Lo sobreescribimos para modificar los datos que devuelve (evitar que regrese el password en el response)
-//Nota: se debe sobreescribir con una función normal (function()) para que el this.toObjet() sea reconocido.
+//Sobreescritura del método toJSON para imprimir un objeto de tipo User
 userSchema.methods.toJSON = function () {
-    const { __v, password, ...user } = this.toObject();
-    return user;
+    const { __v, password, _id, ...user } = this.toObject();
+
+    // Se puede hacer con la notación de puntos, pero así agrega el uid al final del objeto. Ejemplo: user.uid = _id
+    const uid = _id;
+    return {uid, ...user};
 }
 
 module.exports = model('User', userSchema);
-

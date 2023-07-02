@@ -1,25 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+
 const { dbConnection } = require('../database/dbconfig');
 
 class Server {
 
-    //Nota: Las variables en JS por constructor se inicial y declaran sólo en el constructor.
-    //no como en java que primero se declaran en la calse y luego se inicializan
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usersApiPath = '/api/usuarios';
+        this.usersApiPath = '/api/v1/users';
+        this.authPath = '/api/v1/auth';
 
         //Conexión a bd
         this.connDb();
-        
-        //Middlewares
+
+        //Carga los middlewares
         this.middlewares();
 
-        //Rutas de la app
+        //Inicia rutas de la app
         this.routes();
-    }
+    };
 
     //Método para abrir conexión a mongo
     async connDb() {
@@ -32,16 +32,14 @@ class Server {
         //CORS
         this.app.use(cors());
 
-        //Lecutra y parseo de body en peticiones post, put, patch y delete
+        //Lecutra y parseo de body en peticiones post, put, patch y delete en formato json
         this.app.use(express.json());
-
-        // Se sirve la carpeta public 
-        this.app.use(express.static('public'));
     }
 
     //Método para definir las rutas de express
     routes() {
-        this.app.use(this.usersApiPath, require('../routes/userRoutes'));
+        this.app.use(this.authPath, require('../v1/routes/authRoutes'));
+        this.app.use(this.usersApiPath, require('../v1/routes/userRoutes'));
     }
 
     //Método para mostrar en qué puerto se sirvió la aplicación
@@ -50,6 +48,7 @@ class Server {
             console.log(`App listening on port ${this.port}`);
         });
     }
+
 }
 
 
