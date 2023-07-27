@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign In</title>
+</head>
+
+<body>
+    <h2>Google Sign In</h2>
+    <hr>
+    <!-- <div id="g_id_onload" data-client_id="4009105580-e0f68d7tjsahqn8dgkgdns9790p0duk5.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse" data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
+        data-shape="rectangular" data-logo_alignment="left">
+    </div> -->
+
+    <div id="g_id_onload" data-client_id="4009105580-e0f68d7tjsahqn8dgkgdns9790p0duk5.apps.googleusercontent.com"
+        data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with"
+        data-size="large" data-locale="es-419" data-logo_alignment="left">
+    </div>
+    <hr>
+    <button id="google_signout" onclick="signout()">Sign out</button>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+
+        function signout() {
+            console.log(google.accounts.id);
+            google.accounts.id.disableAutoSelect();
+            google.accounts.id.revoke(localStorage.getItem('mail'), done => {
+                localStorage.clear();
+                location.reload();
+            });
+        }
+
+        function handleCredentialResponse(response) {
+            // decodeJwtResponse() is a custom function defined by you
+            // to decode the credential response.
+            // const responsePayload = decodeJwtResponse(response.credential);
+
+            // console.log("ID: " + responsePayload.sub);
+            // console.log('Full Name: ' + responsePayload.name);
+            // console.log('Given Name: ' + responsePayload.given_name);
+            // console.log('Family Name: ' + responsePayload.family_name);
+            // console.log("Image URL: " + responsePayload.picture);
+            // console.log("Email: " + responsePayload.email);
+
+            //console.log('Id_token', response.credential);
+
+            //Se consume el servicio de autenticación con google en mi backend
+            const body = { id_token: response.credential };
+
+            fetch('http://localhost:8080/api/v1/auth/googleSignIn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+                .then(res => res.json())
+                .then(res => {
+                    //console.log(res);
+                    localStorage.setItem('mail', res.user.mail);
+                    location.reload();
+                })
+                .catch(err => console.warn(err));
+        }
+    </script>
+</body>
+
+</html>

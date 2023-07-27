@@ -19,8 +19,7 @@ const userSchema = new Schema({
     },
     rol: {
         type: String,
-        required: true
-        //enum: ['ADMIN_ROLE', 'USER_ROLE']
+        default: 'USER_ROLE'
     },
     status: {
         type: Boolean,
@@ -35,10 +34,12 @@ const userSchema = new Schema({
 //Sobreescritura del método toJSON para imprimir un objeto de tipo User
 userSchema.methods.toJSON = function () {
     const { __v, password, _id, ...user } = this.toObject();
+    const uid = _id;
+    return { uid, ...user };
 
     // Se puede hacer con la notación de puntos, pero así agrega el uid al final del objeto. Ejemplo: user.uid = _id
-    const uid = _id;
-    return {uid, ...user};
+    // user.uid = _id;
+    // return user;
 }
 
 module.exports = model('User', userSchema);

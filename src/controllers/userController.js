@@ -13,7 +13,7 @@ const getAllUsers = async (req = request, res = response) => {
     // De esta manera se ejecutan las dos consultas de forma asíncrona y se capturan en la variable totalRows y users (de acuerdo a la posición de los parámetros)
     // mediante la desestructuración del arreglo que retorna el Promise.all()
     // Consideraciones: Si una promesa falla, todas las demás del Promise.all() no se resolverán.
-    const [count, users] = await Promise.all([
+    const [count, products] = await Promise.all([
         User.count(queryCondition),
         User.find(queryCondition)
             .limit(limit)
@@ -22,7 +22,7 @@ const getAllUsers = async (req = request, res = response) => {
 
     res.status(200).json({
         count,
-        users
+        products
     });
 }
 
