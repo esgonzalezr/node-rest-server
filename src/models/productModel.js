@@ -6,26 +6,29 @@ const productSchema = new Schema({
         required: [true, 'El nombre del producto es obligatorio'],
         unique: true
     },
-    type: {
-        type: String,
-        required: [true, 'El tipo de producto es obligatorio']
-    },
     description: String,
-    cost: {
+    price: {
         type: Number,
         required: [true, 'El valor del costo del producto es obligatorio']
     },
-    salePrice: {
-        type: Number,
-        required: [true, 'El precio de venta del producto es obligatorio']
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
     },
     status: {
         type: Boolean,
         default: true
     },
-    createdAt: Date,
-    lastUpdate: Date
-
+    available: {
+        type: Boolean,
+        default: true
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 productSchema.methods.toJSON = function () {

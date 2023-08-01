@@ -40,11 +40,18 @@ const notExistsCategoryById = async (id) => {
 // * Product validations
 // **********************
 const productExists = async (name = '') => {
-    const queryCondition = { name: name };
+    const queryCondition = { name: name.toUpperCase() };
     const productFound = await Product.findOne(queryCondition);
 
     if (productFound) {
         throw new Error(`Ya existe un producto con el nombre ${name}.`);
+    }
+}
+
+const notExistsProductById = async (id) => {
+    const foundProduct = await Product.findById(id);
+    if (!foundProduct) {
+        throw new Error(`No existe ningún producto con el id ${id}`);
     }
 }
 
@@ -53,6 +60,7 @@ module.exports = {
     isRoleValid,
     mailExists,
     notExistsCategoryById,
+    notExistsProductById,
     productExists,
     userExists,
 }

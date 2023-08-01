@@ -7,9 +7,7 @@ const { getAllCategories, getCategoryById, createCategory, updateCategory, delet
 
 const router = Router();
 
-router.get('/', [
-    validateErrors
-], getAllCategories);
+router.get('/', [], getAllCategories);
 
 router.get('/:id', [
     check('id', 'El id no es válido').isMongoId(),

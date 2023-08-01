@@ -13,7 +13,7 @@ class Server {
         this.authPath = '/api/v1/auth';
         this.categoriesPath = '/api/v1/categories'
         this.productsPath = '/api/v1/products'
-        this.usersApiPath = '/api/v1/users';
+        this.usersPath = '/api/v1/users';
 
         //Conexión a bd
         this.connDb();
@@ -47,7 +47,7 @@ class Server {
         this.app.use(this.authPath, require('../v1/routes/authRoutes'));
         this.app.use(this.categoriesPath, require('../v1/routes/categoriesRoutes'));
         this.app.use(this.productsPath, require('../v1/routes/productsRoutes'));
-        this.app.use(this.usersApiPath, require('../v1/routes/userRoutes'));
+        this.app.use(this.usersPath, require('../v1/routes/userRoutes'));
         this.app.use('*', require('../v1/routes/resourceNotFoundRoutes'));
     }
 
