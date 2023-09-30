@@ -10,7 +10,7 @@ const validateJWT = async (req = request, res = response, next) => {
 
     if (!token) {
         res.status(401).json({
-            msg: "El token de autenticación es obligatorio"
+            msg: "Authentication token can not be empty"
         });
     }
 
@@ -22,29 +22,31 @@ const validateJWT = async (req = request, res = response, next) => {
         //Se valida que el usuario del token exista en bd
         if (!loggedUser) {
             return res.status(401).json({
-                msg: 'Token inválido - Usuario inexistente en bd (borrar tip)'
+                //response if user doesn't exists in the db
+                msg: 'Token is not valid'
             });
         }
 
         //Se valida que el usuario dueño del token esté activo
         if (!loggedUser.status) {
             return res.status(401).json({
-                msg: 'Token inválido - Usuario inactivo (borrar tip)'
+                //Response if user is inactive in the db
+                msg: 'Token is not valid'
             });
         }
 
         req.user = loggedUser;
         req.uid = uid;
 
-        console.log('Usuario:', req.user);
-        console.log('UID:', req.uid);
+        //console.log('Usuario:', req.user);
+        //console.log('UID:', req.uid);
         
         next();
     } catch (err) {
         // err
-        console.log("Error de autenticación: ", err.message);
+        console.log("Authentication error: ", err.message);
         res.status(401).json({
-            msg: `Error de autenticación - ${err.message}`
+            msg: `Authentication error - ${err.message}`
         });
     }
 }

@@ -8,13 +8,13 @@ const { authPost, googleSignIn } = require('../../controllers/authController');
 const router = Router();
 
 router.post('/login', [
-    check('mail', 'El correo es obligatorio y debe ser un correo válido').isEmail(),
-    check('password', 'El password es obligatorio').notEmpty(),
+    check('mail', 'The email can not be empty and must be valid').isEmail(),
+    check('password', 'The password can not be empty').notEmpty(),
     validateErrors
 ], authPost);
 
 router.post('/googleSignIn', [
-    check('id_token', 'Google ID token requerido').notEmpty(),
+    check('id_token', 'The google token id is required').notEmpty(),
     validateErrors
 ], googleSignIn);
 

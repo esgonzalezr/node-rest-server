@@ -3,13 +3,13 @@ const { Schema, model } = require('mongoose');
 const productSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'El nombre del producto es obligatorio'],
+        required: [true, 'The product name cannot be empty'],
         unique: true
     },
     description: String,
     price: {
         type: Number,
-        required: [true, 'El valor del costo del producto es obligatorio']
+        required: [true, 'The cost of the product cannot be empty and must be a numeric value']
     },
     category: {
         type: Schema.Types.ObjectId,

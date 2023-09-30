@@ -3,17 +3,17 @@ const { Schema, model } = require('mongoose');
 const categorySchema = new Schema({
     name: {
         type: String,
-        required: [true, 'El nombre de la categoría es obligatorio']
+        required: [true, 'The category name cannot be empty']
     },
     status: {
         type: Boolean,
         default: true,
-        required: [true, 'El estado es obligatorio']
+        required: [true, 'The status cannot be empty']
     },
     user: {
         type: Schema.Types.ObjectId,    //De esta manera se indica que este campo es referencia a un ID de un modelo de mongo.
         ref: 'User',                    //De esta manera se indica cuál es Modelo al que hace referencia este campo. La referencia debe tener el nombre exacto del Modelo.
-        required: [true, 'El usuario es obligatorio']
+        required: [true, 'The user cannot be empty']
     }
 });
 

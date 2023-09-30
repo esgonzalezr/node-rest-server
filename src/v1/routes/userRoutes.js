@@ -15,23 +15,23 @@ router.get('/', [
 ], getAllUsers);
 
 router.post('/', [
-    check('name', 'El usuario es obligatorio').notEmpty(),
-    check('mail', 'El correo debe ser un correo válido').isEmail().custom(mail => mailExists(mail)),
-    check('password', 'El password debe contener al menos 6 caracteres').notEmpty().isLength({ min: 6 }),
+    check('name', 'The username can not be empty').notEmpty(),
+    check('mail', 'The email must have a valid format').isEmail().custom(mail => mailExists(mail)),
+    check('password', 'The password must have at least 6 characters length').notEmpty().isLength({ min: 6 }),
     check('rol').custom(rol => isRoleValid(rol)),
     validateErrors
 ], createUser);
 
 //TODO: Implementar validación custom que valide que al menos un campo está presente
 router.put('/:id', [
-    check('id', 'El id no es válido').isMongoId(),
-    check('id', `No existe ningún usuario con el id.`).custom(id => userExists(id)),
+    check('id', 'The given id is not valid').isMongoId(),
+    check('id', `There is no users with the given id`).custom(id => userExists(id)),
     check('rol').optional().custom(rol => isRoleValid(rol)),
     validateErrors
 ], updateUser);
 
 router.delete('/:id', [
-    check('id', 'El id no es válido').isMongoId(),
+    check('id', 'The given id is not valid').isMongoId(),
     check('id').custom(id => userExists(id)),
     validateErrors
 ], deleteUser);

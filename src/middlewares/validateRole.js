@@ -4,19 +4,20 @@ const isAdmin = (req, res = response, next) => {
 
     if (!req.user) {
         return res.status(500).json({
-            msg: "Se está intentando validar el rol sin haber verificado el token"
+            //msg: "Se está intentando validar el rol sin haber verificado el token"
+            msg: "The role cannot be verified without a token validation first"
         });
     }
 
     if (!req.user.rol) {
         return res.status(401).json({
-            msg: "El usuario no tiene rol asignado"
+            msg: "The user doesn't have a role"
         });
     }
 
     if (req.user.rol !== 'ADMIN_ROLE') {
         return res.status(401).json({
-            msg: "Permisos insuficientes, acceso denegado"
+            msg: "Insufficient permissions, access denied"
         });
     }
 
@@ -25,10 +26,11 @@ const isAdmin = (req, res = response, next) => {
 
 const hasRole = (...roles) => {
     return (req, res, next) => {
-        
-        if(!roles.includes(req.user.rol)){
+
+        if (!roles.includes(req.user.rol)) {
             return res.status(401).json({
-                msg: "Permisos insuficientes - hasRole"
+                //msg: "Permisos insuficientes - hasRole"
+                msg: "Insufficient permissions, access denied"
             });
         }
         next();

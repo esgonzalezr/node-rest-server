@@ -57,7 +57,6 @@ class Server {
             console.log(`App listening on port ${this.port}`);
         });
     }
-
 }
 
 
